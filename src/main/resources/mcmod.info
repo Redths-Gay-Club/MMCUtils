@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "mmcutils",
+    "name": "MMCUtils",
+    "description": "MMCUtils :DDDDDDDDD",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": [
+      "Redth"
+    ]
+  }
+]
