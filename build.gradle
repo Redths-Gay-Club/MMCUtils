@@ -50,9 +50,9 @@ dependencies {
     }
 
     implementation 'gg.essential:essential-1.8.9-forge:3760'
-    implementation 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+    implementation 'org.spongepowered:mixin:0.6-SNAPSHOT'
 
-    annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+    annotationProcessor 'org.spongepowered:mixin:0.6-SNAPSHOT'
 }
 
 reobf {
@@ -77,6 +77,8 @@ jar {
             'ModSide': 'CLIENT',
             'ForceLoadAsMod': true,
             'TweakClass': 'gg.essential.loader.stage0.EssentialSetupTweaker',
+            'MixinConfigs': 'mixins.mmcutils.json',
+            'FMLCorePluginContainsFMLMod': true
     )
 
     enabled = false
