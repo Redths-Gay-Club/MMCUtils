@@ -7,6 +7,9 @@
     "mcversion": "${mcversion}",
     "authorList": [
       "Redth"
+    ],
+    "dependencies": [
+      "essential"
     ]
   }
 ]

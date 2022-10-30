@@ -1,5 +1,6 @@
 package me.redth.mmcutils.mixin;
 
+import me.redth.mmcutils.Config;
 import me.redth.mmcutils.MMCUtils;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.IBlockState;
@@ -15,12 +16,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class BlockModelRendererMixin {
     @Redirect(method = "renderQuadsSmooth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldRenderer;putColorMultiplier(FFFI)V"))
     public void modifyArgs(WorldRenderer instance, float l, float i1, float j1, int k1, IBlockAccess worldIn, IBlockState stateIn, BlockPos blockPosIn) {
-        if (MMCUtils.onMMC && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
+        if (MMCUtils.inMMC && Config.heightLimitOverlay && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
             int meta = stateIn.getValue(BlockColored.COLOR).getMetadata();
             if (meta == 14 || meta == 11) {
-                l *= 0.5F;
-                i1 *= 0.5F;
-                j1 *= 0.5F;
+                l *= Config.heightLimitBrightness;
+                i1 *= Config.heightLimitBrightness;
+                j1 *= Config.heightLimitBrightness;
             }
         }
 

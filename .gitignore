@@ -1,5 +1,4 @@
-# Eclipse
-eclipse
+# eclipse
 bin
 *.launch
 .settings
@@ -7,23 +6,18 @@ bin
 .classpath
 .project
 
-# Idea
+# idea
 out
-classes
 *.ipr
 *.iws
 *.iml
 .idea
 
-# Gradle
+# gradle
 build
 .gradle
 
-# Netbeans
-.nb-gradle
-.nb-gradle-properties
-
-# Other
+# other
+eclipse
 run
-.DS_Store
-Thumbs.db
+.hprof
