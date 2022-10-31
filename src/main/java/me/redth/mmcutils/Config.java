@@ -13,16 +13,16 @@ import java.util.List;
 
 public class Config extends Vigilant {
 
-    @Property(type = PropertyType.SWITCH, name = "Auto Queue", category = "General", description = "Automatically queues your current proxy's practice server when connected.")
+    @Property(type = PropertyType.SWITCH, name = "Auto Practice", category = "General", description = "Go straight into practice once joined.")
     public static boolean autoQueue = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Auto Party Chat", category = "General", description = "Automatically enters party chat when connected.")
+    @Property(type = PropertyType.SWITCH, name = "Auto Party Chat", category = "General", description = "Enter party chat once joined practice.")
     public static boolean autoPartyChat = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Height Limit Overlay", category = "General", description = "Darkens wools and terracottas at height limit.")
+    @Property(type = PropertyType.SWITCH, name = "Height Limit Overlay", category = "General", description = "Make wools and terracottas darker at height limit.")
     public static boolean heightLimitOverlay = true;
 
-    @Property(type = PropertyType.PERCENT_SLIDER, name = "Height Limit Brightness", category = "General", description = "How bright the blocks will be.")
+    @Property(type = PropertyType.PERCENT_SLIDER, name = "Height Limit Brightness", category = "General", description = "Adjust the brightness of height limit overlay.")
     public static float heightLimitBrightness = 0.5F;
 
     public Config() {
