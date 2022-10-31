@@ -1,7 +1,7 @@
 [
   {
-    "modid": "mmcutils",
-    "name": "MMCUtils",
+    "modid": "${modid}}",
+    "name": "${name}",
     "description": "MMCUtils :DDDDDDDDD",
     "version": "${version}",
     "mcversion": "${mcversion}",
