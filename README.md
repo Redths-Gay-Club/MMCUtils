@@ -7,7 +7,7 @@
  - Height Limit Overlay - Darkens wools and terracottas at height limit.
  - Height Limit Brightness - How bright the blocks will be.
 
- `/mmcutils` for config menu
+ `/mmcutils` to enter config menu
 
 # Requirements
  - Essential
