@@ -10,4 +10,4 @@
 # Requirements
  - Essential
  - OptiFine
- - Smooth Lighting On
+ - Smooth Lighting: On
