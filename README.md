@@ -2,10 +2,12 @@
  Utilities for Minemen Club
 
 # Features
- - Queues practice on join
- - Enter party chat on join
- - Darkens terracottas and wools at height limit
- - `/mmcutils` for config menu
+ - Auto Queue - Automatically queues your current proxy's practice server when connected.
+ - Auto Party Chat - Automatically enters party chat when connected.
+ - Height Limit Overlay - Darkens wools and terracottas at height limit.
+ - Height Limit Brightness - How bright the blocks will be.
+
+ `/mmcutils` for config menu
 
 # Requirements
  - Essential
