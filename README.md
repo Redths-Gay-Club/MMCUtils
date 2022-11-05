@@ -13,3 +13,10 @@ Type `/mmcutils` to configure.
 - Essential
 - OptiFine
 - Smooth Lighting: On
+
+# Showcase
+![Height Overlay](images/height_overlay.png)
+
+![Config UI](images/config_ui.png)
+
+https://youtu.be/t4LKD4bojfw
