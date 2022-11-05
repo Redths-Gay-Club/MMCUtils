@@ -19,9 +19,10 @@ public class BlockModelRendererMixin {
         if (MMCUtils.inMMC && Config.heightLimitOverlay && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
             int meta = stateIn.getValue(BlockColored.COLOR).getMetadata();
             if (meta == 14 || meta == 11) {
-                l *= Config.heightLimitBrightness;
-                i1 *= Config.heightLimitBrightness;
-                j1 *= Config.heightLimitBrightness;
+                float f = 1F- Config.heightLimitDarkness;
+                l *= f;
+                i1 *= f;
+                j1 *= f;
             }
         }
 

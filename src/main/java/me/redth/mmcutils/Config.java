@@ -22,8 +22,8 @@ public class Config extends Vigilant {
     @Property(type = PropertyType.SWITCH, name = "Height Limit Overlay", category = "General", description = "Make wools and terracottas darker at height limit.")
     public static boolean heightLimitOverlay = true;
 
-    @Property(type = PropertyType.PERCENT_SLIDER, name = "Height Limit Brightness", category = "General", description = "Adjust the brightness of height limit overlay.")
-    public static float heightLimitBrightness = 0.5F;
+    @Property(type = PropertyType.PERCENT_SLIDER, name = "Height Limit Darkness", category = "General", description = "Adjust the darkness of height limit overlay.")
+    public static float heightLimitDarkness = 0.5F;
 
     public Config() {
         super(new File("./config/mmcutils.toml"));

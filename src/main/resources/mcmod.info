@@ -2,9 +2,10 @@
   {
     "modid": "${modid}}",
     "name": "${name}",
-    "description": "MMCUtils :DDDDDDDDD",
+    "description": "Utilities for Minemen Club",
     "version": "${version}",
     "mcversion": "${mcversion}",
+    "url": "https://github.com/RedthMC/MMCUtils",
     "authorList": [
       "Redth"
     ],
