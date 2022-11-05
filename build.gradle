@@ -48,9 +48,10 @@ dependencies {
     }
 
     implementation 'gg.essential:essential-1.8.9-forge:3760'
-    implementation 'org.spongepowered:mixin:0.6-SNAPSHOT'
+    implementation 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
+    implementation files('libs/optifine.jar')
 
-    annotationProcessor 'org.spongepowered:mixin:0.6-SNAPSHOT'
+    annotationProcessor 'org.spongepowered:mixin:0.7.11-SNAPSHOT'
 }
 
 reobf {

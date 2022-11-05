@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-@Mod(modid = "mmcutils", name = "MMCUtils", version = "0.1.2", clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
+@Mod(modid = "mmcutils", name = "MMCUtils", version = "0.1.3", clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
 public class MMCUtils {
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static final ImmutableList<String> ALL_PROXY = ImmutableList.of("AS Practice", "EU Practice", "NA Practice", "SA Practice");
