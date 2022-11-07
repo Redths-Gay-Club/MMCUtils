@@ -1,6 +1,6 @@
 [
   {
-    "modid": "${modid}}",
+    "modid": "${modid}",
     "name": "${name}",
     "description": "Utilities for Minemen Club",
     "version": "${version}",
