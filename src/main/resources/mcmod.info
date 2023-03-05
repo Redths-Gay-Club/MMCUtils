@@ -1,15 +1,18 @@
 [
   {
-    "modid": "mmcutils",
-    "name": "MMCUtils",
-    "description": "MMCUtils :DDDDDDDDD",
+    "modid": "${id}",
+    "name": "${name}",
+    "description": "",
     "version": "${version}",
-    "mcversion": "${mcversion}",
+    "mcversion": "1.8.9",
+    "url": "",
+    "updateUrl": "",
     "authorList": [
       "Redth"
     ],
-    "dependencies": [
-      "essential"
-    ]
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
   }
 ]

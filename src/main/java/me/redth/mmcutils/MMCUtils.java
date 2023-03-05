@@ -2,37 +2,23 @@ package me.redth.mmcutils;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-@Mod(modid = "mmcutils", name = "MMCUtils", version = "0.1", clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
+@Mod(modid = "mmcutils", name = "MMCUtils", version = "0.1.4", clientSideOnly = true, acceptedMinecraftVersions = "1.8.9")
 public class MMCUtils {
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static final ImmutableList<String> ALL_PROXY = ImmutableList.of("AS Practice", "EU Practice", "NA Practice", "SA Practice");
-    public static Config config;
-    public static boolean inMMC, inPractice, inPartyChat, showConfig;
+    public static boolean inMMC, inPractice, inPartyChat;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(this);
-        ClientCommandHandler.instance.registerCommand(new Config.Command());
-        config = new Config();
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.START) return;
-
-        if (showConfig) {
-            mc.displayGuiScreen(config.gui());
-            showConfig = false;
-        }
+        new Configuration();
     }
 
     @SubscribeEvent
@@ -49,16 +35,17 @@ public class MMCUtils {
     public void onChat(ClientChatReceivedEvent e) {
         if (!inMMC) return;
 
-        if (!inPractice && "Minemen Club".equals(e.message.getUnformattedText()) && Config.autoQueue) {
+        if (!inPractice && "Minemen Club".equals(e.message.getUnformattedText()) && Configuration.autoQueue) {
             String[] split = mc.getCurrentServerData().serverIP.split(".minemen.club");
             String mmcProxy = split[0].length() == 2 ? split[0] : "na";
             mc.thePlayer.sendChatMessage("/joinqueue " + mmcProxy + "-practice");
             inPractice = true;
         }
 
-        if (!inPartyChat && ALL_PROXY.contains(e.message.getUnformattedText()) && Config.autoPartyChat) {
+        if (!inPartyChat && ALL_PROXY.contains(e.message.getUnformattedText()) && Configuration.autoPartyChat) {
             mc.thePlayer.sendChatMessage("/p chat");
             inPartyChat = true;
         }
     }
+
 }
