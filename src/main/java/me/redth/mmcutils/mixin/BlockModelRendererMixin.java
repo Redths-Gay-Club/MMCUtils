@@ -21,12 +21,12 @@ import java.util.List;
 public class BlockModelRendererMixin {
     @ModifyArgs(method = "renderQuadsSmooth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldRenderer;putColorMultiplier(FFFI)V"))
     public void modifyArgs(Args args, IBlockAccess worldIn, IBlockState stateIn, BlockPos blockPosIn, WorldRenderer instance, List<BakedQuad> list, RenderEnv env) {
-        if (MMCUtils.inMMC && Configuration.heightLimitOverlay && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
+        if (MMCUtils.inBridgingGame && Configuration.heightLimitOverlay && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
             int meta = stateIn.getValue(BlockColored.COLOR).getMetadata();
             if (meta == 14 || meta == 11) {
-                float f = 1F - Configuration.heightLimitDarkness / 1000F;
+                float brightness = 1F - Configuration.heightLimitDarkness / 10F;
                 for (int i = 0; i < 3; i++) {
-                    args.set(i, (float) args.get(i) * f);
+                    args.set(i, (float) args.get(i) * brightness);
                 }
             }
         }
