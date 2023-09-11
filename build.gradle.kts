@@ -44,7 +44,7 @@ group = "me.redth"
 // Sets the name of the output jar (the one you put in your mods folder and send to other people)
 // It outputs all versions of the mod into the `build` directory.
 base {
-    archivesName.set("$mod_id-$platform")
+    archivesName.set("$mod_archives_name-$platform")
 }
 
 // Configures the Polyfrost Loom, our plugin fork to easily set up the programming environment.

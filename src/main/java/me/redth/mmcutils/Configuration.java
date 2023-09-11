@@ -19,13 +19,13 @@ public class Configuration extends Config {
     @Switch(name = "Disable Player List", subcategory = "Other", description = "Prevent accidentally tapping tab and lag your pc.")
     public static boolean disablePlayerList = true;
 
-    @Switch(name = "Height Overlay", subcategory = "Height Overlay", description = "Make wools and terracottas darker at height limit.")
+    @Switch(name = "Height Overlay", category = "Height Overlay", description = "Make wools and terracottas darker at height limit.")
     public static boolean heightLimitOverlay = true;
 
-    @Slider(name = "Height Overlay Darkness", subcategory = "Height Overlay", min = 0, max = 10, step = 1, description = "Adjust the darkness of height limit overlay.")
+    @Slider(name = "Height Overlay Darkness", category = "Height Overlay", min = 0, max = 10, step = 1, description = "Adjust the darkness of height limit overlay.")
     public static int heightLimitDarkness = 3;
 
-    @HUD(name = "Height Limit Distance HUD")
+    @HUD(name = "Height Limit Distance HUD", category = "Height Limit Distance HUD")
     public static HeightLimitHud hud = new HeightLimitHud();
 
     public Configuration() {

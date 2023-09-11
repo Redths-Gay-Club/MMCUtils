@@ -1,8 +1,12 @@
 package me.redth.mmcutils;
 
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -12,6 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Mod(modid = MMCUtils.MODID, name = MMCUtils.NAME, version = MMCUtils.VERSION)
 public class MMCUtils {
@@ -22,7 +28,7 @@ public class MMCUtils {
     public static final List<String> BRIDGING_GAMES = ImmutableList.of("Bed Fight", "Fireball Fight", "Bridges", "Battle Rush");
 
     private static final Minecraft mc = Minecraft.getMinecraft();
-    public static boolean inMMC, inPractice, inPartyChat, inBridgingGame;
+    public static boolean checkedScoreboard, inPractice, inPartyChat, inBridgingGame;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
@@ -31,26 +37,24 @@ public class MMCUtils {
     }
 
     @SubscribeEvent
-    public void onJoin(FMLNetworkEvent.ClientConnectedToServerEvent e) {
-        if (!e.isLocal && mc.getCurrentServerData().serverIP.contains("minemen.club")) inMMC = true;
-    }
-
-    @SubscribeEvent
     public void onQuit(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
-        inMMC = inPractice = inPartyChat = inBridgingGame = false;
+        checkedScoreboard = inPractice = inPartyChat = inBridgingGame = false;
     }
 
     @SubscribeEvent
     public void onChat(ClientChatReceivedEvent e) {
-        if (!inMMC) return;
-
         String clean = e.message.getUnformattedText();
-        if (!inPractice && "Minemen Club".equals(clean) && Configuration.autoQueue) {
-            String[] split = mc.getCurrentServerData().serverIP.split(".minemen.club");
-            String mmcProxy = split[0].length() == 2 ? split[0] : "na";
-            mc.thePlayer.sendChatMessage("/joinqueue " + mmcProxy + "-practice");
-            inPractice = true;
+
+        if (!checkedScoreboard && !inPractice && "Minemen Club".equals(clean) && Configuration.autoQueue) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    checkScoreboard();
+                }
+            }, 1000L);
         }
+
+        if (!inPractice) return;
 
         if (!inPartyChat && ALL_PROXY.contains(clean) && Configuration.autoPartyChat) {
             mc.thePlayer.sendChatMessage("/p chat");
@@ -68,8 +72,28 @@ public class MMCUtils {
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent.Pre e) {
         if (e.type != RenderGameOverlayEvent.ElementType.PLAYER_LIST) return;
-        if (!inMMC) return;
+        if (!checkedScoreboard) return;
         if (!Configuration.disablePlayerList) return;
         e.setCanceled(true);
+    }
+
+    public static void checkScoreboard() {
+        checkedScoreboard = true;
+        Scoreboard scoreboard = mc.theWorld.getScoreboard();
+        if (scoreboard == null) return;
+        ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(1);
+        if (objective == null) return;
+        for (Score score : scoreboard.getSortedScores(objective)) {
+            ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
+            String text = ScorePlayerTeam.formatPlayerName(team, score.getPlayerName());
+            text = ChatColor.Companion.stripColorCodes(text);
+            if (text == null) continue;
+            String[] split = text.split(".minemen.club");
+            if (split[0].length() != 2) continue;
+            String mmcProxy = split[0];
+            mc.thePlayer.sendChatMessage("/joinqueue " + mmcProxy + "-practice");
+            inPractice = true;
+            break;
+        }
     }
 }
