@@ -18,17 +18,20 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import java.util.List;
 
 @Mixin(BlockModelRenderer.class)
-public class BlockModelRendererMixin {
+public abstract class BlockModelRendererMixin {
     @ModifyArgs(method = "renderQuadsSmooth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldRenderer;putColorMultiplier(FFFI)V"))
     public void modifyArgs(Args args, IBlockAccess worldIn, IBlockState stateIn, BlockPos blockPosIn, WorldRenderer instance, List<BakedQuad> list, RenderEnv env) {
-        if (MMCUtils.inBridgingGame && Configuration.heightLimitOverlay && blockPosIn.getY() == 99 && stateIn.getBlock() instanceof BlockColored) {
-            int meta = stateIn.getValue(BlockColored.COLOR).getMetadata();
-            if (meta == 14 || meta == 11) {
-                float brightness = 1F - Configuration.heightLimitDarkness / 10F;
-                for (int i = 0; i < 3; i++) {
-                    args.set(i, (float) args.get(i) * brightness);
-                }
-            }
+        if (!MMCUtils.inBridgingGame) return;
+        if (!Configuration.heightLimitOverlay) return;
+        if (blockPosIn.getY() != 99) return;
+        if (!(stateIn.getBlock() instanceof BlockColored)) return;
+
+        int meta = stateIn.getValue(BlockColored.COLOR).getMetadata();
+        if (meta != 14 && meta != 11) return;
+
+        float brightness = 1F - Configuration.heightLimitDarkness / 10F;
+        for (int i = 0; i < 3; i++) {
+            args.set(i, (float) args.get(i) * brightness);
         }
     }
 

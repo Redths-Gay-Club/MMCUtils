@@ -1,19 +1,27 @@
 package me.redth.mmcutils;
 
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-@Mod(modid = "@ID@", name = "@NAME@", version = "@VER@")
+import java.util.List;
+
+@Mod(modid = MMCUtils.MODID, name = MMCUtils.NAME, version = MMCUtils.VERSION)
 public class MMCUtils {
+    public static final String MODID = "@ID@";
+    public static final String NAME = "@NAME@";
+    public static final String VERSION = "@VER@";
+    public static final List<String> ALL_PROXY = ImmutableList.of("AS Practice", "EU Practice", "NA Practice", "SA Practice");
+    public static final List<String> BRIDGING_GAMES = ImmutableList.of("Bed Fight", "Fireball Fight", "Bridges", "Battle Rush");
+
     private static final Minecraft mc = Minecraft.getMinecraft();
-    public static final ImmutableList<String> ALL_PROXY = ImmutableList.of("AS Practice", "EU Practice", "NA Practice", "SA Practice");
-    public static final ImmutableList<String> BRIDGING_GAMES = ImmutableList.of("Bed Fight", "Fireball Fight", "Bridges", "Battle Rush");
     public static boolean inMMC, inPractice, inPartyChat, inBridgingGame;
 
     @Mod.EventHandler
@@ -57,4 +65,11 @@ public class MMCUtils {
         }
     }
 
+    @SubscribeEvent
+    public void onRenderGameOverlay(RenderGameOverlayEvent.Pre e) {
+        if (e.type != RenderGameOverlayEvent.ElementType.PLAYER_LIST) return;
+        if (!inMMC) return;
+        if (!Configuration.disablePlayerList) return;
+        e.setCanceled(true);
+    }
 }
