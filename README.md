@@ -1,9 +1,10 @@
 # MMCUtils
 Utilities for Minemen Club
 
-# Features
+## Features
 - **Auto Practice** - Go straight into practice once joined.
 - **Auto Party Chat** - Enter party chat once joined practice.
+- **Auto GG** - Send GG once a game ended.
 - **Disable Player List** - Prevent accidentally tapping tab and lag your pc.
 - **Height Overlay** - Make wools and terracottas darker at height limit.
 - **Height Overlay Darkness** - Adjust the darkness of height limit overlay.
@@ -11,9 +12,10 @@ Utilities for Minemen Club
 
 Configurable in `OneConfig` menu
 
-# Requirements
+## Requirements
+### Height Overlay
 - OptiFine Smooth Lighting: On
 
-# Images
-![height-limit.png](images%2Fheight-limit.png)
-![settings-page.png](images%2Fsettings-page.png)
+## Images
+![height-limit.png](images/height-limit.png)
+![settings-page.png](images/settings-page.png)

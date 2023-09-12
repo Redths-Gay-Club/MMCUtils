@@ -64,8 +64,10 @@ public class MMCUtils {
         if (!inBridgingGame) {
             if (BRIDGING_GAMES.contains(clean))
                 inBridgingGame = true;
-        } else if (clean.startsWith("Match Results")) {
-            inBridgingGame = false;
+        }
+        if (clean.startsWith("Match Results")) {
+            if (inBridgingGame) inBridgingGame = false;
+            if (Configuration.autoGG) mc.thePlayer.sendChatMessage(Configuration.autoGGText);
         }
     }
 
