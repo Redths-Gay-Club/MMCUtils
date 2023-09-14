@@ -5,6 +5,7 @@ import cc.polyfrost.oneconfig.config.Config;
 import cc.polyfrost.oneconfig.config.annotations.HUD;
 import cc.polyfrost.oneconfig.config.annotations.Slider;
 import cc.polyfrost.oneconfig.config.annotations.Switch;
+import cc.polyfrost.oneconfig.config.annotations.Text;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 
@@ -19,7 +20,7 @@ public class Configuration extends Config {
     @Switch(name = "Auto GG", subcategory = "Other", description = "Send specified text once a game ended.")
     public static boolean autoGG = false;
 
-    @Switch(name = "Auto GG Text", subcategory = "Other", description = "Specify what text to send.")
+    @Text(name = "Auto GG Text", subcategory = "Other", description = "Specify what text to send.")
     public static String autoGGText = "gg";
 
     @Switch(name = "Disable Player List", subcategory = "Other", description = "Prevent accidentally tapping tab and lag your pc.")
