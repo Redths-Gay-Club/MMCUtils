@@ -4,5 +4,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockModelRendererMixin"
-  ]
+  ],
+  "minVersion": "0.7"
 }
