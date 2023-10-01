@@ -31,7 +31,7 @@ object MMCUtils {
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
         MinecraftForge.EVENT_BUS.register(this)
-        ModConfig
+        ModConfig.initialize()
     }
 
     @SubscribeEvent
@@ -65,7 +65,7 @@ object MMCUtils {
 
     private fun tryPartyChat(chat: String) {
         if (inPartyChat) return
-        if (!ALL_PROXY.contains(chat)) return
+        if (chat !in ALL_PROXY) return
         if (!ModConfig.autoPartyChat) return
 
         mc.thePlayer.sendChatMessage("/p chat")
@@ -74,7 +74,7 @@ object MMCUtils {
 
     private fun checkBridgingGame(chat: String) {
         if (inBridgingGame) return
-        if (!BRIDGING_GAMES.contains(chat)) return
+        if (chat !in BRIDGING_GAMES) return
 
         inBridgingGame = true
     }
@@ -101,12 +101,10 @@ object MMCUtils {
         val scoreboard = mc.theWorld.scoreboard ?: return
         val objective = scoreboard.getObjectiveInDisplaySlot(1) ?: return
         for (score in scoreboard.getSortedScores(objective)) {
-            val team = scoreboard.getPlayersTeam(score.playerName)
-            var text = ScorePlayerTeam.formatPlayerName(team, score.playerName)
-            text = ChatColor.stripColorCodes(text) ?: continue
-            val split = text.split(".minemen.club")
-            if (split[0].length != 2) continue
-            val mmcProxy = split[0]
+            val team = scoreboard.getPlayersTeam(score.playerName) ?: continue
+            val text = ChatColor.stripColorCodes(ScorePlayerTeam.formatPlayerName(team, score.playerName))?: continue
+            val mmcProxy = text.split(".minemen.club").firstOrNull() ?: continue
+            if (mmcProxy.length != 2) continue
             mc.thePlayer.sendChatMessage("/joinqueue $mmcProxy-practice")
             inPractice = true
             break
