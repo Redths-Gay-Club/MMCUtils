@@ -19,8 +19,8 @@ object MMCUtils {
     const val MODID = "@ID@"
     const val NAME = "@NAME@"
     const val VERSION = "@VER@"
-    val ALL_PROXY = arrayOf("AS Practice", "EU Practice", "NA Practice", "SA Practice")
-    val BRIDGING_GAMES = arrayOf("Bed Fight", "Fireball Fight", "Bridges", "Battle Rush")
+    private val ALL_PROXY = arrayOf("AS Practice", "EU Practice", "NA Practice", "SA Practice")
+    private val BRIDGING_GAMES = arrayOf("Bed Fight", "Fireball Fight", "Bridges", "Battle Rush")
     private val mc = Minecraft.getMinecraft()
 
     var checkedScoreboard = false
@@ -44,33 +44,59 @@ object MMCUtils {
 
     @SubscribeEvent
     fun onChat(e: ClientChatReceivedEvent) {
-        val clean = e.message.unformattedText
-        if (!checkedScoreboard && !inPractice && "Minemen Club" == clean && ModConfig.autoQueue) {
-            Timer().schedule(1000L) { checkScoreboard() }
-        }
+        val cleanText = e.message.unformattedText!!
+
+        scheduleCheckScoreboard(cleanText)
+
         if (!inPractice) return
-        if (!inPartyChat && ALL_PROXY.contains(clean) && ModConfig.autoPartyChat) {
-            mc.thePlayer.sendChatMessage("/p chat")
-            inPartyChat = true
-        }
-        if (!inBridgingGame) {
-            if (BRIDGING_GAMES.contains(clean)) inBridgingGame = true
-        }
-        if (clean.startsWith("Match Results")) {
-            if (inBridgingGame) inBridgingGame = false
-            if (ModConfig.autoGG) mc.thePlayer.sendChatMessage(ModConfig.autoGGText)
-        }
+
+        tryPartyChat(cleanText)
+        checkBridgingGame(cleanText)
+        checkGameEnd(cleanText)
     }
 
     @SubscribeEvent
-    fun onRenderGameOverlay(e: RenderGameOverlayEvent.Pre) {
-        if (e.type != RenderGameOverlayEvent.ElementType.PLAYER_LIST) return
-        if (!checkedScoreboard) return
+    fun preventTablist(e: RenderGameOverlayEvent.Pre) {
         if (!ModConfig.disablePlayerList) return
+        if (e.type != RenderGameOverlayEvent.ElementType.PLAYER_LIST) return
+        if (!inPractice) return
         e.isCanceled = true
     }
 
-    fun checkScoreboard() {
+    private fun tryPartyChat(chat: String) {
+        if (inPartyChat) return
+        if (!ALL_PROXY.contains(chat)) return
+        if (!ModConfig.autoPartyChat) return
+
+        mc.thePlayer.sendChatMessage("/p chat")
+        inPartyChat = true
+    }
+
+    private fun checkBridgingGame(chat: String) {
+        if (inBridgingGame) return
+        if (!BRIDGING_GAMES.contains(chat)) return
+
+        inBridgingGame = true
+    }
+
+    private fun checkGameEnd(chat: String) {
+        if (!chat.startsWith("Match Results")) return
+
+        if (inBridgingGame) inBridgingGame = false
+
+        if (ModConfig.autoGG) mc.thePlayer.sendChatMessage(ModConfig.autoGGText)
+    }
+
+    private fun scheduleCheckScoreboard(chat: String) {
+        if (checkedScoreboard) return
+        if (inPractice) return
+        if (chat != "Minemen Club") return
+        if (!ModConfig.autoQueue) return
+
+        Timer().schedule(1000L) { checkScoreboard() }
+    }
+
+    private fun checkScoreboard() {
         checkedScoreboard = true
         val scoreboard = mc.theWorld.scoreboard ?: return
         val objective = scoreboard.getObjectiveInDisplaySlot(1) ?: return
