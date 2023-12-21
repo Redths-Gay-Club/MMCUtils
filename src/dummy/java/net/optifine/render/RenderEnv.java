@@ -1,4 +1,4 @@
 package net.optifine.render;
 
-public interface RenderEnv {
+public class RenderEnv {
 }

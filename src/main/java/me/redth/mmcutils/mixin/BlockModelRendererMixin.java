@@ -1,6 +1,6 @@
 package me.redth.mmcutils.mixin;
 
-import me.redth.mmcutils.Hooks;
+import me.redth.mmcutils.core.Core;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BlockModelRenderer;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -19,8 +19,16 @@ import java.util.List;
 @Mixin(BlockModelRenderer.class)
 public abstract class BlockModelRendererMixin {
     @Dynamic("optifine")
-    @ModifyArgs(method = "renderQuadsSmooth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldRenderer;putColorMultiplier(FFFI)V"))
-    public void modifyArgs(Args args, IBlockAccess worldIn, IBlockState stateIn, BlockPos blockPosIn, WorldRenderer instance, List<BakedQuad> list, RenderEnv env) {
-        Hooks.INSTANCE.modifyArgs(args, stateIn, blockPosIn);
+    @ModifyArgs(
+        remap = false,
+        method = "renderQuadsSmooth",
+        at = @At(
+            value = "INVOKE",
+            remap = true,
+            target = "Lnet/minecraft/client/renderer/WorldRenderer;putColorMultiplier(FFFI)V"
+        )
+    )
+    private void mmcUtils$modifyShadow(Args args, IBlockAccess worldIn, IBlockState stateIn, BlockPos blockPosIn, WorldRenderer instance, List<BakedQuad> list, RenderEnv env) {
+        Core.INSTANCE.modifyArgs(args, stateIn, blockPosIn);
     }
 }
